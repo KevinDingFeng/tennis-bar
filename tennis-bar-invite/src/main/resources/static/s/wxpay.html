@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Index</title>
+</head>
+<body>
+	<a
+		href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf92bc6eda94de282&redirect_uri=http%3a%2f%2fwxpay.dazonghetong.com%2fauth%2fcallback&response_type=code&scope=snsapi_userinfo&state=a123456#wechat_redirect">点击我授权</a>
+	<br />
+
+	<button onclick="getToken()">点击我授权</button>
+	<br />
+
+	<input type="button" value="提交，后台生成订单，发送统一下单请求，返回预支付id"
+		onclick="getPrepayId()" />
+	<br />
+
+	<script src="jquery-2.1.4.min.js"></script>
+	<script>
+		function getToken() {
+
+			$.ajax({
+				type : "GET",
+				url : "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf92bc6eda94de282&redirect_uri=http%3a%2f%2fwxpay.dazonghetong.com%2fauth%2fcallback&response_type=code&scope=snsapi_userinfo&state=a123456#wechat_redirect ",
+				data : {},
+				success : function(res) {
+					alert(res);
+					console.log(res);
+					console.log(res.data);
+				}
+			});
+		}
+		var appIdVal,timeStampVal,nonceStrVal,packageVal,signTypeVal,paySignVal;
+		function getPrepayId() {
+			$.ajax({
+				type : "GET",
+				url : "https://wxpay.dazonghetong.com/order/unified",
+				data : {},
+				success : function(data) {
+					if(data.code == "200"){
+						appIdVal = data.data.appId;
+						timeStampVal = data.data.timeStamp;
+						nonceStrVal = data.data.nonceStr;
+						packageVal = data.data.prepayId;
+						signTypeVal = data.data.signType;
+						paySignVal = data.data.paySign;
+						$("#mss").val($("#mss").val() + signTypeVal);
+						if (typeof WeixinJSBridge == "undefined") {
+							if (document.addEventListener) {
+								document.addEventListener('WeixinJSBridgeReady', onBridgeReady,
+										false);
+							} else if (document.attachEvent) {
+								document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+								document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+							}
+							$("#mss").val($("#mss").val() + "无定氮仪");
+						} else {
+							$("#mss").val($("#mss").val() + "有定氮仪");
+							onBridgeReady();
+							tttt();
+						}
+					}
+
+					/*
+					code:"200",
+					data:{
+						appId:"wxf92bc6eda94de282",
+						nonceStr:"rz05t0mi7x4hvl77bahj",
+						paySign:"5DE5A0B8E8CF8E89F28CD4B1E2E88400",
+						prepayId:"prepay_id=wx181408164283142404d897be0579475816",
+						timeStamp:"1537250896"
+					},
+					message:"success"
+					 */
+				}
+			});
+		}
+		function tttt(){
+			$("#mss").val($("#mss").val() + "tttttttt");
+		}
+		function onBridgeReady() {
+			$("#mss").val($("#mss").val() + packageVal);
+			WeixinJSBridge.invoke('getBrandWCPayRequest', {
+				"appId" : appIdVal, //公众号名称，由商户传入     
+				"timeStamp" : timeStampVal, //时间戳，自1970年以来的秒数     
+				"nonceStr" : nonceStrVal, //随机串     
+				"package" : packageVal,
+				"signType" : signTypeVal, //微信签名方式：     
+				"paySign" : paySignVal //微信签名 
+			}, function(res) {
+				if (res.err_msg == "get_brand_wcpay_request:ok") {
+					$("#mss").val("ok");
+				}else if (res.err_msg == "get_brand_wcpay_request: cancel") {
+					$("#mss").val("cancel");
+				}else if (res.err_msg == "get_brand_wcpay_request: fail") {
+					$("#mss").val("fail");
+				}
+				$("#mss").val($("#mss").val() + res.err_msg);
+			});
+		}
+		
+	</script>
+<input type="text" id="mss" />
+
+</body>
+</html>
+

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Index</title>
+</head>
+<body>
+
+
+	<div id="app">
+		{{message}}
+	</div>
+	
+	<form method="post" action="/login">
+		name:<input name="name" /><br />
+		pwd:<input name="password" /><br />
+		<input type="button" onclick="doSub()" value="提交" />
+	</form>
+	
+	<script src="/s/js/vue.js"></script>
+	<script src="/s/js/jquery-2.1.4.min.js"></script>
+	<script>
+
+	function doSub(){
+		$.ajax({
+		    type: "POST",
+		    url: "http://localhost:2222/auth",
+		    data: {"name": "123", "password" : "123"},
+		    success: function(data){
+		    	console.log(data);	
+		    }
+		});
+	}
+	</script>	
+
+
+</body>
+</html>
+

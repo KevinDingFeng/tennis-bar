@@ -1,0 +1,12 @@
+tennis-bar	网球吧
+
+框架
+tennis-bar
+	tennis-bar-common			公用项目
+	tennis-bar-entity-base		创建实体需要引用的基础信息
+	tennis-bar-invite			实现邀请功能，导入了 common 和 service 两个项目包
+	tennis-bar-service			服务层、持久层、实体
+	
+接口验证
+	接口统一规定为 /api/* 
+	通过接口访问数据时，把通过授权接口获取到的 access_token 参数放置到请求的 header 参数中，使用 name 为 “tennisToken”

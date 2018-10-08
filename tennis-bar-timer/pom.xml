@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.shenghesun</groupId>
+		<artifactId>tennis-bar</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>tennis-bar-timer</artifactId>
+	<name>tennis-bar-timer</name>
+	<description>timer </description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.shenghesun</groupId>
+			<artifactId>tennis-bar-service</artifactId>
+			<version>${tennis.bar.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.shenghesun</groupId>
+			<artifactId>tennis-bar-common</artifactId>
+			<version>${tennis.bar.version}</version>
+		</dependency>
+		<!-- <dependency> 需要在 2.0.0.BUILD-SNAPSHOT版本之后
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-quartz</artifactId>
+		</dependency> -->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

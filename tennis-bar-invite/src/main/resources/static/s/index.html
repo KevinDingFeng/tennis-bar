@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Index</title>
+</head>
+<body>
+	<a href="login.html">登录</a>
+	
+	<br />
+	<button onclick="loginEn()" >加密</button>
+	<br />
+	
+	
+	<button onclick="getFirst()" >获取列表</button>
+	<br />
+	<input id="keyword"/>
+	<button onclick="findByKeyword()" >查询列表-keyword</button>
+	<br />
+	<button onclick="showImg()" >查看</button>
+	<br />
+	<button onclick="getSecond()" >翻页</button>
+	<br />
+	<button onclick="removed()" >删除</button>
+	
+	<br />
+	<button onclick="detail()" >详情</button>
+	<br />
+	<form action="/court/save" method="post" enctype="multipart/form-data" >
+	
+	id<input id="id" name="id"/><br />
+	name<input id="name" name="name"/><br />
+	address<input id="address" name="address"/><br />
+	contact<input id="contact" name="contact"/><br />
+	telephone<input id="telephone" name="telephone"/><br />
+	remark<input id="remark" name="remark"/><br />
+	businessCircleId<input id="businessCircleId" name="businessCircleId"/><br /> 
+	file<input type="file" multiple="multiple" id="file" name="imgs"/><br />
+	removed<input id="deleteImg" name="deleteImg" /><br />
+	
+	<input type="submit" value="保存" />
+	</form>
+	<script src="/s/jquery-2.1.4.min.js"></script>
+	<script>
+	
+	function save(){
+		var id = $("#id").val();
+		var name = $("#name").val();
+		var address = $("#address").val();
+		var contact = $("#contact").val();
+		var telephone = $("#telephone").val();
+		var remark = $("#remark").val();
+		var businessCircleId = $("#businessCircleId").val();
+		$.ajax({
+		     type: "POST",
+		     url: "http://localhost:5566/court/save",
+		     data: {name:name, id:id, address:address, contact:contact, telephone:telephone, remark:remark, businessCircleId:businessCircleId},
+		     success: function(data){
+		     	console.log(data);	
+		     }
+		 });
+	}
+	function detail(){
+		$.ajax({
+		     type: "GET",
+		     url: "http://localhost:5566/court/1",
+		     data: {},
+		     success: function(data){
+		     	console.log(data);	
+		     }
+		 });
+	}
+	function loginEn(){
+		$.ajax({
+		     type: "GET",
+		     url: "http://localhost:5566/encrypt",
+		     data: {"account":111,"password":111},
+		     success: function(data){
+		     	console.log(data);	
+		     }
+		 });
+		
+	}
+	function removed(){
+		var arr = "1,2,3,4";
+		$.ajax({
+		     type: "POST",
+		     url: "http://localhost:5566/court/removed",
+		     data: {ids: arr},
+		     success: function(data){
+		     	console.log(data);	
+		     }
+		 });
+	}
+	function getFirst(){
+		$.ajax({
+		     type: "GET",
+		     url: "http://localhost:5566/court/list",
+		     data: {},
+		     success: function(data){
+		     	console.log(data);	
+		     }
+		 });
+	}
+	function findByKeyword(){
+		var k = $("#keyword").val();
+		$.ajax({
+		     type: "GET",
+		     url: "http://localhost:5566/court/list",
+		     data: {keyword: k},
+		     success: function(data){
+		     	console.log(data);	
+		     }
+		 });
+	}
+	function showImg(){
+		$.ajax({
+		     type: "GET",
+		     url: "http://localhost:5566/court/list",
+		     data: {},
+		     success: function(data){
+		     	console.log(data.data.courts.content[0].imgPath);
+		     	console.log(data.data.prePath);
+		     	
+		     }
+		 });
+	}
+	function getSecond(){
+		$.ajax({
+		     type: "GET",
+		     url: "http://localhost:5566/court/list",
+		     data: {pageNum : 1},
+		     success: function(data){
+		     	console.log(data);	
+		     }
+		 });
+	}
+	</script>	
+
+
+</body>
+</html>
+
